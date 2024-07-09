@@ -48,6 +48,11 @@ export const Swap = () => {
       return;
     }
 
+    if (inputAmount === "0" || inputAmount === "") {
+      setOutputAmount("");
+      return;
+    }
+
     if (inputToken === "RUMP") {
       setInputAmount(e.target.value);
       const _token1Amount = ethers.utils.parseUnits(e.target.value, "ether");
@@ -77,7 +82,7 @@ export const Swap = () => {
         "ether"
       );
       const _fee = ethers.utils.formatUnits(result[1].toString(), "ether");
-      
+
       setOutputAmount(_token1Amount);
       setFee(_fee);
     }
@@ -124,7 +129,10 @@ export const Swap = () => {
 
   return (
     <div>
-      <Card style={{ maxWidth: "450px" }} className="mx-auto px-4 bg-dark border-danger">
+      <Card
+        style={{ maxWidth: "450px" }}
+        className="mx-auto px-4 bg-dark border-danger"
+      >
         {account ? (
           <Form
             onSubmit={handleSwap}
@@ -191,10 +199,10 @@ export const Swap = () => {
                   placeholder="0.0"
                   value={outputAmount === 0 ? "" : outputAmount}
                   disabled
-                   className="bg-light border-danger"
+                  className="bg-light border-danger"
                 />
                 <DropdownButton
-                 variant="outline-danger text-light bg-dark"
+                  variant="outline-danger text-light bg-dark"
                   title={outputToken ? outputToken : "Select Token"}
                 >
                   <Dropdown.Item
@@ -218,8 +226,15 @@ export const Swap = () => {
                 />
               ) : (
                 <>
-                  <Button type="submit" className="bg-danger text-light border-danger">Swap</Button>
-                  <Form.Text className="text-light">Exchange Rate: {price}</Form.Text>
+                  <Button
+                    type="submit"
+                    className="bg-danger text-light border-danger"
+                  >
+                    Swap
+                  </Button>
+                  <Form.Text className="text-light">
+                    Exchange Rate: {price}
+                  </Form.Text>
                   <Form.Text className="text-light">.03% Fee: {fee}</Form.Text>
                 </>
               )}
