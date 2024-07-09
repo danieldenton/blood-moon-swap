@@ -31,13 +31,6 @@ const Navigation = () => {
 
   return (
     <>
-      <style type="text/css">
-        {`
-.nav {
-background-color: blac;
-}
-`}
-      </style>
       <Navbar className="my-3 bg-dark" expand="lg">
         <img
           alt="logo"
