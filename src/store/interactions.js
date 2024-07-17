@@ -30,7 +30,7 @@ export const loadNetwork = async (provider, dispatch) => {
   const { chainId } = await provider.getNetwork();
   config = chainId === 11155111 ? sepoliaData : localhostData;
   dispatch(setNetwork(chainId));
-  return chainId, config;
+  return chainId;
 };
 
 export const loadAccount = async (dispatch) => {
@@ -43,6 +43,7 @@ export const loadAccount = async (dispatch) => {
 };
 
 export const loadTokens = async (provider, chainId, dispatch) => {
+  config = chainId === 11155111 ? sepoliaData : localhostData;
   const rump = new ethers.Contract(
     config[chainId].rump.address,
     TOKEN_ABI,
@@ -58,6 +59,7 @@ export const loadTokens = async (provider, chainId, dispatch) => {
 };
 
 export const loadAMM = async (provider, chainId, dispatch) => {
+  config = chainId === 11155111 ? sepoliaData : localhostData;
   const amm = new ethers.Contract(
     config[chainId].amm.address,
     AMM_ABI,
