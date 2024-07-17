@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ethers } from "ethers";
 import Card from "react-bootstrap/Card";
@@ -116,15 +116,12 @@ export const Swap = () => {
       window.alert("Invalid token pair");
       return;
     }
-
     const _inputAmount = ethers.utils.parseUnits(inputAmount, "ether");
-
     if (inputToken === "RUMP") {
       await swap(provider, amm, tokens[0], tokens[1], _inputAmount, dispatch);
     } else {
       await swap(provider, amm, tokens[1], tokens[0], _inputAmount, dispatch);
     }
-
     await loadBalances(amm, tokens, account, dispatch);
     setInputAmount(0);
     setOutputAmount(0);
