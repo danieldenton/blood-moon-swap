@@ -17,7 +17,10 @@ import {
 } from "./reducers/amm";
 import TOKEN_ABI from "../abis/Token.json";
 import AMM_ABI from "../abis/AMM.json";
-import config from "../config.json";
+import sepoliaData from "../sepoliaConfig.json";
+import localhostData from "../localhostConfig.json";
+
+const config = chainId === 11155111 ? sepoliaData : localhostData;
 
 export const loadProvider = (dispatch) => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);

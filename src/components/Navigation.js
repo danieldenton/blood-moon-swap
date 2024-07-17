@@ -7,7 +7,8 @@ import Blockies from "react-blockies";
 import logo from "../logo.jpg";
 
 import { loadAccount, loadBalances } from "../store/interactions";
-import config from "../config.json";
+import sepoliaData from "../sepoliaConfig.json";
+import localhostData from "../localhostConfig.json";
 
 const Navigation = () => {
   const chainId = useSelector((state) => state.provider.chainId);
@@ -15,6 +16,7 @@ const Navigation = () => {
   const tokens = useSelector((state) => state.tokens.contracts);
   const amm = useSelector((state) => state.amm.contract);
   const dispatch = useDispatch();
+  const config = chainId === 11155111 ? sepoliaData : localhostData;
 
   const handleConnect = async () => {
     const account = await loadAccount(dispatch);
