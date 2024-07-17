@@ -42,7 +42,7 @@ function App() {
 
   useEffect(() => {
     loadBlockchainData();
-  }, []);
+  });
 
   return (
     <Container className="bg-dark" style={{ height: '100%'}}>
