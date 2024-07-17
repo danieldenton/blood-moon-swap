@@ -37,22 +37,45 @@ export const Swap = () => {
     (state) => state.amm.swapping.transactionHash
   );
 
+  const getPrice = async () => {
+    if (inputToken === outputToken) {
+      setPrice(0);
+      return;
+    }
+    if (inputToken === "RUMP") {
+      setPrice((await amm.token2Balance()) / (await amm.token1Balance()));
+    } else {
+      setPrice((await amm.token1Balance()) / (await amm.token2Balance()));
+    }
+  };
+
+  const handleInputToken = (e) => {
+    setInputToken(e.target.innerHTML);
+    if (inputToken && outputToken) {
+      getPrice();
+    }
+  };
+
+  const handleOutputToken = (e) => {
+    setOutputToken(e.target.innerHTML);
+    if (inputToken && outputToken) {
+      getPrice();
+    }
+  };
+
   const handleInput = async (e) => {
     if (!inputToken || !outputToken) {
       window.alert("Please select a token");
       return;
     }
-
     if (inputToken === outputToken) {
       window.alert("Invalid token pair");
       return;
     }
-
     if (inputAmount === "0" || inputAmount === "") {
       setOutputAmount("");
       return;
     }
-
     if (inputToken === "RUMP") {
       setInputAmount(e.target.value);
       const _token1Amount = ethers.utils.parseUnits(e.target.value, "ether");
@@ -66,7 +89,6 @@ export const Swap = () => {
         "ether"
       );
       const _fee = ethers.utils.formatUnits(result[1].toString(), "ether");
-
       setOutputAmount(_token2Amount);
       setFee(_fee);
     } else {
@@ -82,7 +104,6 @@ export const Swap = () => {
         "ether"
       );
       const _fee = ethers.utils.formatUnits(result[1].toString(), "ether");
-
       setOutputAmount(_token1Amount);
       setFee(_fee);
     }
@@ -108,24 +129,6 @@ export const Swap = () => {
     await getPrice();
     setShowAlert(true);
   };
-
-  const getPrice = async () => {
-    if (inputToken === outputToken) {
-      setPrice(0);
-      return;
-    }
-    if (inputToken === "RUMP") {
-      setPrice((await amm.token2Balance()) / (await amm.token1Balance()));
-    } else {
-      setPrice((await amm.token1Balance()) / (await amm.token2Balance()));
-    }
-  };
-
-  useEffect(() => {
-    if (inputToken && outputToken) {
-      getPrice();
-    }
-  }, [inputToken, outputToken]);
 
   return (
     <div>
@@ -166,14 +169,10 @@ export const Swap = () => {
                   variant="outline-danger text-light bg-dark"
                   title={inputToken ? inputToken : "Select Token"}
                 >
-                  <Dropdown.Item
-                    onClick={(e) => setInputToken(e.target.innerHTML)}
-                  >
+                  <Dropdown.Item onClick={(e) => handleInputToken(e)}>
                     RUMP
                   </Dropdown.Item>
-                  <Dropdown.Item
-                    onClick={(e) => setInputToken(e.target.innerHTML)}
-                  >
+                  <Dropdown.Item onClick={(e) => handleInputToken(e)}>
                     USD
                   </Dropdown.Item>
                 </DropdownButton>
@@ -205,14 +204,10 @@ export const Swap = () => {
                   variant="outline-danger text-light bg-dark"
                   title={outputToken ? outputToken : "Select Token"}
                 >
-                  <Dropdown.Item
-                    onClick={(e) => setOutputToken(e.target.innerHTML)}
-                  >
+                  <Dropdown.Item onClick={(e) => handleOutputToken(e)}>
                     RUMP
                   </Dropdown.Item>
-                  <Dropdown.Item
-                    onClick={(e) => setOutputToken(e.target.innerHTML)}
-                  >
+                  <Dropdown.Item onClick={(e) => handleOutputToken(e)}>
                     USD
                   </Dropdown.Item>
                 </DropdownButton>
