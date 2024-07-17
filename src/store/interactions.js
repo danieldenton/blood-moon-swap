@@ -19,8 +19,7 @@ import TOKEN_ABI from "../abis/Token.json";
 import AMM_ABI from "../abis/AMM.json";
 import sepoliaData from "../sepoliaConfig.json";
 import localhostData from "../localhostConfig.json";
-
-const config = chainId === 11155111 ? sepoliaData : localhostData;
+let config;
 
 export const loadProvider = (dispatch) => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -29,8 +28,9 @@ export const loadProvider = (dispatch) => {
 };
 export const loadNetwork = async (provider, dispatch) => {
   const { chainId } = await provider.getNetwork();
+  config = chainId === 11155111 ? sepoliaData : localhostData;
   dispatch(setNetwork(chainId));
-  return chainId;
+  return chainId, config;
 };
 
 export const loadAccount = async (dispatch) => {
