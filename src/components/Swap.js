@@ -126,6 +126,8 @@ export const Swap = () => {
     }
 
     await loadBalances(amm, tokens, account, dispatch);
+    setInputAmount(0);
+    setOutputAmount(0);
     await getPrice();
     setShowAlert(true);
   };
