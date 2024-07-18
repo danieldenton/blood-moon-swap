@@ -11,7 +11,9 @@ const Alert = ({ message, transactionHash, variant, setShowAlert }) => {
       <BootstrapAlert.Heading>{message}</BootstrapAlert.Heading>
       <hr />
       {transactionHash && (
-        <p>{transactionHash.slice(0, 6) + "..." + transactionHash.slice(60, 66)}</p>
+        <p style={{ color: "green" }}>
+          {transactionHash.slice(0, 6) + "..." + transactionHash.slice(60, 66)}
+        </p>
       )}
     </BootstrapAlert>
   );
